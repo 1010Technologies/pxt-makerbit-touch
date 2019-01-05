@@ -10,8 +10,7 @@
         "namespace.ts",
         "README.md",
         "touch.ts",
-        "_locales/de/MakerBit-jsdoc-strings.json",
-        "_locales/de/MakerBit-strings.json"
+        "_locales/de/MakerBit-Touch-strings.json"
     ],
     "testFiles": [
         "test.ts"
