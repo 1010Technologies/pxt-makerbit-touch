@@ -220,7 +220,7 @@ namespace makerbit {
     /**
      * Returns the sensor index of the last touch event that was received.
      * It could be either a sensor touched or released event.
-     * This block intended to be used inside of touch event handlers.
+     * This block is intended to be used inside of touch event handlers.
      */
     //% subcategory="Touch"
     //% blockId=makerbit_touch_current_touch_sensor
