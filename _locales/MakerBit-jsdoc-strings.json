@@ -1,0 +1,17 @@
+{
+  "makerbit": "MakerBit",
+  "makerbit.TouchEvent.TSensor": "The index of the touch sensor.",
+  "makerbit.isTouched": "Returns true if a specific touch sensor is currently touched. False otherwise.",
+  "makerbit.isTouched|param|sensor": "the touch sensor to be checked, eg: TouchSensor.T5",
+  "makerbit.onAnyTouchSensorReleased": "Do something when the end of a touch operation is detected.",
+  "makerbit.onAnyTouchSensorReleased|param|handler": "body code to run when event is raised",
+  "makerbit.onAnyTouchSensorTouched": "Do something when the beginning of a touch event is detected.",
+  "makerbit.onAnyTouchSensorTouched|param|handler": "body code to run when event is raised",
+  "makerbit.onTouchSensorReleased": "Do something when a specific sensor is released.\nA touch release event is notified once at the end of a touch operation.",
+  "makerbit.onTouchSensorReleased|param|handler": "body code to run when event is raised",
+  "makerbit.onTouchSensorReleased|param|sensor": "the touch sensor to be checked, eg: TouchSensor.T5",
+  "makerbit.onTouchSensorTouched": "Do something when a specific sensor is touched.\nThis touch event is notified once at the beginning of a touch operation.",
+  "makerbit.onTouchSensorTouched|param|handler": "body code to run when event is raised",
+  "makerbit.onTouchSensorTouched|param|sensor": "the touch sensor to be checked, eg: TouchSensor.T5",
+  "makerbit.touchSensor": "Returns the index of the sensor that is currently touched or released.\nReturns 0 when used outside of touch event handlers."
+}

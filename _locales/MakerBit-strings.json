@@ -1,0 +1,10 @@
+{
+  "makerbit.isTouched|block": "touch sensor | %sensor | is touched",
+  "makerbit.onAnyTouchSensorReleased|block": "on any touch sensor released",
+  "makerbit.onAnyTouchSensorTouched|block": "on any touch sensor touched",
+  "makerbit.onTouchSensorReleased|block": "on touch sensor | %sensor | released",
+  "makerbit.onTouchSensorTouched|block": "on touch sensor | %sensor | touched",
+  "makerbit.touchSensor|block": "touch sensor",
+  "makerbit|block": "MakerBit",
+  "{id:category}Makerbit": "Makerbit"
+}
