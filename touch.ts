@@ -12,7 +12,9 @@ const enum TouchSensor {
   T13 = 0b000000001000,
   T14 = 0b000000000100,
   T15 = 0b000000000010,
-  T16 = 0b000000000001
+  T16 = 0b000000000001,
+  //% block="any"
+  Any = 1 << 30
 }
 
 namespace makerbit {
@@ -152,7 +154,7 @@ namespace makerbit {
   }
 
   /**
-   * Do something when a specific sensor is touched.
+   * Do something when a sensor is touched.
    * This touch event is notified once at the beginning of a touch operation.
    * @param sensor the touch sensor to be checked, eg: TouchSensor.T5
    * @param handler body code to run when event is raised
@@ -168,13 +170,18 @@ namespace makerbit {
     handler: () => void
   ) {
     initTouchController();
-    control.onEvent(MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID, sensor, () => {
-      setupContextAndNotify(handler);
-    });
+
+    control.onEvent(
+      MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
+      sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
+      () => {
+        setupContextAndNotify(handler);
+      }
+    );
   }
 
   /**
-   * Do something when a specific sensor is released.
+   * Do something when a sensor is released.
    * A touch release event is notified once at the end of a touch operation.
    * @param sensor the touch sensor to be checked, eg: TouchSensor.T5
    * @param handler body code to run when event is raised
@@ -190,43 +197,10 @@ namespace makerbit {
     handler: () => void
   ) {
     initTouchController();
-    control.onEvent(MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID, sensor, () => {
-      setupContextAndNotify(handler);
-    });
-  }
 
-  /**
-   * Do something when the beginning of a touch event is detected.
-   * @param handler body code to run when event is raised
-   */
-  //% subcategory="Touch"
-  //% blockId=makerbit_touch_on_touched
-  //% block="on any touch sensor touched"
-  //% weight=60
-  export function onAnyTouchSensorTouched(handler: () => void) {
-    initTouchController();
-    control.onEvent(
-      MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
-      EventBusValue.MICROBIT_EVT_ANY,
-      () => {
-        setupContextAndNotify(handler);
-      }
-    );
-  }
-
-  /**
-   * Do something when the end of a touch operation is detected.
-   * @param handler body code to run when event is raised
-   */
-  //% subcategory="Touch"
-  //% blockId=makerbit_touch_on_released
-  //% block="on any touch sensor released"
-  //% weight=59
-  export function onAnyTouchSensorReleased(handler: () => void) {
-    initTouchController();
     control.onEvent(
       MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
-      EventBusValue.MICROBIT_EVT_ANY,
+      sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
       () => {
         setupContextAndNotify(handler);
       }
@@ -279,7 +253,11 @@ namespace makerbit {
   //% weight=40
   export function isTouched(sensor: TouchSensor): boolean {
     initTouchController();
-    return (touchController.lastTouchStatus & sensor) !== 0;
+    if (sensor === TouchSensor.Any) {
+      return touchController.lastTouchStatus !== 0;
+    } else {
+      return (touchController.lastTouchStatus & sensor) !== 0;
+    }
   }
 
   // Communication module for MPR121 capacitive touch sensor controller
