@@ -202,7 +202,7 @@ namespace makerbit {
    */
   //% subcategory="Touch"
   //% blockId=makerbit_touch_current_touch_sensor
-  //% block="last touch sensor"
+  //% block="touch sensor"
   //% weight=50
   export function touchSensor(): number {
     initTouchController();
