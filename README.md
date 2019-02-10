@@ -18,20 +18,12 @@ http://makerbit.com/
 
 MakerBit offers built-in support for up to 12 touch sensors via the proximity capacitive touch sensor controller MPR121.
 
-### MakerBit onTouchDetected
+### MakerBit onTouch
 
-Do something when a specific sensor is touched. This touch event is notified once at the beginning of a touch operation.
-
-```sig
-makerbit.onTouchSensorTouched(TouchSensor.T5, () => {})
-```
-
-### MakerBit onTouchSensorReleased
-
-Do something when a specific sensor is released. A touch release event is notified once at the end of a touch operation.
+Do something when a sensor is touched. This touch event is notified once at the beginning of a touch operation.
 
 ```sig
-makerbit.onTouchSensorReleased(TouchSensor.T5, () => {})
+makerbit.onTouch(TouchSensor.T5, TouchAction.Pressed, () => {})
 ```
 
 ### MakerBit touchSensor

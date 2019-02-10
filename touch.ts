@@ -17,6 +17,13 @@ const enum TouchSensor {
   Any = 1 << 30
 }
 
+const enum TouchAction {
+  //% block="pressed"
+  Pressed = 0,
+  //% block="released"
+  Released = 1
+}
+
 namespace makerbit {
   const MPR121_ADDRESS = 0x5a;
   const TOUCH_STATUS_PAUSE_BETWEEN_READ = 50;
@@ -161,45 +168,21 @@ namespace makerbit {
    */
   //% subcategory="Touch"
   //% blockId=makerbit_touch_on_touch_sensor_down
-  //% block="on touch sensor | %sensor | touched"
+  //% block="on touch sensor | %sensor | %action"
   //% sensor.fieldEditor="gridpicker" sensor.fieldOptions.columns=6
   //% sensor.fieldOptions.tooltips="false"
   //% weight=65
-  export function onTouchSensorTouched(
+  export function onTouch(
     sensor: TouchSensor,
+    action: TouchAction,
     handler: () => void
   ) {
     initTouchController();
 
     control.onEvent(
-      MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
-      sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
-      () => {
-        setupContextAndNotify(handler);
-      }
-    );
-  }
-
-  /**
-   * Do something when a sensor is released.
-   * A touch release event is notified once at the end of a touch operation.
-   * @param sensor the touch sensor to be checked, eg: TouchSensor.T5
-   * @param handler body code to run when event is raised
-   */
-  //% subcategory="Touch"
-  //% blockId=makerbit_touch_on_touch_sensor_released
-  //% block="on touch sensor | %sensor | released"
-  //% sensor.fieldEditor="gridpicker" sensor.fieldOptions.columns=6
-  //% sensor.fieldOptions.tooltips="false"
-  //% weight=64
-  export function onTouchSensorReleased(
-    sensor: TouchSensor,
-    handler: () => void
-  ) {
-    initTouchController();
-
-    control.onEvent(
-      MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
+      action === TouchAction.Pressed
+        ? MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID
+        : MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
       sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
       () => {
         setupContextAndNotify(handler);

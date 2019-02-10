@@ -2,7 +2,6 @@
  * Touch tests
  */
 
-makerbit.onTouchSensorTouched(TouchSensor.T5, () => {});
-makerbit.onTouchSensorReleased(TouchSensor.Any, () => {});
+makerbit.onTouch(TouchSensor.Any, TouchAction.Pressed, () => {});
 let touchSensor: number = makerbit.touchSensor();
 let isTouched: boolean = makerbit.isTouched(TouchSensor.T5);
