@@ -263,21 +263,21 @@ namespace makerbit {
   // Communication module for MPR121 capacitive touch sensor controller
   // https://www.sparkfun.com/datasheets/Components/MPR121.pdf
   export namespace mpr121 {
-    export enum CalibrationLock {
+    export const enum CalibrationLock {
       BaselineTrackingOn = 0b00,
       BaselineTrackingOff = 0b01,
       BaselineTrackingAndInitializeFirst5MSB = 0b10,
       BaselineTrackingAndInitialize = 0b11
     }
 
-    export enum Proximity {
+    export const enum Proximity {
       DISABLED = 0b00,
       ELE0_TO_1 = 0b01,
       ELE_0_TO_3 = 0b10,
       ELE_0_TO_11 = 0b11
     }
 
-    export enum Touch {
+    export const enum Touch {
       DISABLED = 0b0000,
       ELE_0 = 0b0001,
       ELE_0_TO_1 = 0b0010,
@@ -293,7 +293,7 @@ namespace makerbit {
       ELE_0_TO_11 = 0b1100
     }
 
-    export enum Config {
+    export const enum Config {
       MHDR = 0x2b,
       NHDR = 0x2c,
       NCLR = 0x2d,
