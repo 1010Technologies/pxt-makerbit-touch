@@ -161,13 +161,12 @@ namespace makerbit {
   }
 
   /**
-   * Do something when a sensor is touched.
-   * This touch event is notified once at the beginning of a touch operation.
+   * Do something when a touch sensor is pressed or released.
    * @param sensor the touch sensor to be checked, eg: TouchSensor.T5
    * @param handler body code to run when event is raised
    */
   //% subcategory="Touch"
-  //% blockId=makerbit_touch_on_touch_sensor_down
+  //% blockId=makerbit_touch_on_touch_sensor
   //% block="on touch sensor | %sensor | %action"
   //% sensor.fieldEditor="gridpicker" sensor.fieldOptions.columns=6
   //% sensor.fieldOptions.tooltips="false"
@@ -185,14 +184,10 @@ namespace makerbit {
         : MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
       sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
       () => {
-        setupContextAndNotify(handler);
+        touchController.lastEventValue = control.eventValue();
+        handler();
       }
     );
-  }
-
-  function setupContextAndNotify(handler: () => void) {
-    touchController.lastEventValue = control.eventValue();
-    handler();
   }
 
   /**
