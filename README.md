@@ -39,7 +39,7 @@ makerbit.touchSensor()
 Returns true if a specific touch sensor is currently touched. False otherwise.
 
 ```sig
-makerbit.isTouched(TouchSensor.T1)
+makerbit.isTouched(TouchSensor.T5)
 ```
 
 ## License
