@@ -209,6 +209,10 @@ namespace makerbit {
   }
 
   function getSensorIndexFromSensorBitField(touchSensorBit: TouchSensor) {
+    if (touchSensorBit === TouchSensor.Any) {
+      return TouchSensor.Any;
+    }
+
     let bit = TouchSensor.T5;
     for (let sensorIndex = 5; sensorIndex <= 16; sensorIndex++) {
       if ((bit & touchSensorBit) !== 0) {
@@ -217,6 +221,16 @@ namespace makerbit {
       bit >>= 1;
     }
     return 0;
+  }
+
+  function getTouchSensorFromIndex(index: number): TouchSensor {
+    if (5 <= index && index <= 16) {
+      return TouchSensor.T5 >> (index - 5);
+    } else if (index === TouchSensor.Any) {
+      return TouchSensor.Any;
+    } else {
+      return 0;
+    }
   }
 
   /**
@@ -229,13 +243,40 @@ namespace makerbit {
   //% sensor.fieldEditor="gridpicker" sensor.fieldOptions.columns=6
   //% sensor.fieldOptions.tooltips="false"
   //% weight=40
-  export function isTouched(sensor: TouchSensor): boolean {
+  //% blockHidden=true
+  export function isSensorTouched(sensor: TouchSensor): boolean {
     initTouchController();
     if (sensor === TouchSensor.Any) {
       return touchController.lastTouchStatus !== 0;
     } else {
       return (touchController.lastTouchStatus & sensor) !== 0;
     }
+  }
+
+  /**
+   * Turns a TouchSensor into its index value.
+   * @param sensor the touch sensor, eg: TouchSensor.T5
+   */
+  //% subcategory="Touch"
+  //% blockId=makerbit_touch_sensor_index
+  //% block="%touchSensorIndex"
+  //% sensor.fieldEditor="gridpicker" sensor.fieldOptions.columns=6
+  //% sensor.fieldOptions.tooltips="false"
+  //% blockHidden=true
+  export function touchSensorIndex(sensor: TouchSensor): number {
+    return getSensorIndexFromSensorBitField(sensor);
+  }
+
+  /**
+   * Returns true if a specific touch sensor is currently touched. False otherwise.
+   * @param sensorIndex the touch sensor index to be checked, eg: 5
+   */
+  //% subcategory="Touch"
+  //% blockId="makerbit_touch_is_touch_sensor_index_touched"
+  //% block="touch sensor | %sensorIndex=makerbit_touch_sensor_index | is touched"
+  //% weight=42
+  export function isTouched(sensorIndex: number): boolean {
+    return isSensorTouched(getTouchSensorFromIndex(sensorIndex));
   }
 
   // Communication module for MPR121 capacitive touch sensor controller
