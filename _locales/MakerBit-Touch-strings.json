@@ -1,5 +1,5 @@
 {
-  "TouchAction.Pressed|block": "pressed",
+  "TouchAction.Pressed|block": "touched",
   "TouchAction.Released|block": "released",
   "TouchSensor.Any|block": "any",
   "makerbit.isTouched|block": "touch sensor | %sensor | is touched",
