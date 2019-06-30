@@ -1,9 +1,11 @@
 {
-  "TouchAction.Touched|block": "berührt",
   "TouchAction.Released|block": "losgelassen",
+  "TouchAction.Touched|block": "berührt",
   "TouchSensor.Any|block": "beliebig",
-  "makerbit.isTouched|block": "Berührungssensor| %sensor | wird berührt",
+  "makerbit.isSensorTouched|block": "Berührungssensor| %sensor | wird berührt",
+  "makerbit.isTouched|block": "Berührungssensor | %sensorIndex=makerbit_touch_sensor_index | wird berührt",
   "makerbit.onTouch|block": "wenn Berührungssensor | %sensor | %action",
+  "makerbit.touchSensorIndex|block": "%touchSensorIndex",
   "makerbit.touchSensor|block": "Berührungssensor",
   "makerbit|block": "MakerBit",
   "{id:category}Makerbit": "Makerbit",

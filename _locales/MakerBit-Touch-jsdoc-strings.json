@@ -1,0 +1,13 @@
+{
+  "makerbit": "MakerBit",
+  "makerbit.isSensorTouched": "Returns true if a specific touch sensor is currently touched. False otherwise.",
+  "makerbit.isSensorTouched|param|sensor": "the touch sensor to be checked, eg: TouchSensor.T5",
+  "makerbit.isTouched": "Returns true if a specific touch sensor is currently touched. False otherwise.",
+  "makerbit.isTouched|param|sensorIndex": "the touch sensor index to be checked, eg: 5",
+  "makerbit.onTouch": "Do something when a touch sensor is touched or released.",
+  "makerbit.onTouch|param|handler": "body code to run when event is raised",
+  "makerbit.onTouch|param|sensor": "the touch sensor to be checked, eg: TouchSensor.T5",
+  "makerbit.touchSensor": "Returns the sensor index of the last touch event that was received.\nIt could be either a sensor touched or released event.\nThis block is intended to be used inside of touch event handlers.",
+  "makerbit.touchSensorIndex": "Turns a TouchSensor into its index value.",
+  "makerbit.touchSensorIndex|param|sensor": "the touch sensor, eg: TouchSensor.T5"
+}
