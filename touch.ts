@@ -18,8 +18,8 @@ const enum TouchSensor {
 }
 
 const enum TouchAction {
-  //% block="pressed"
-  Pressed = 0,
+  //% block="touched"
+  Touched = 0,
   //% block="released"
   Released = 1
 }
@@ -161,7 +161,7 @@ namespace makerbit {
   }
 
   /**
-   * Do something when a touch sensor is pressed or released.
+   * Do something when a touch sensor is touched or released.
    * @param sensor the touch sensor to be checked, eg: TouchSensor.T5
    * @param handler body code to run when event is raised
    */
@@ -179,7 +179,7 @@ namespace makerbit {
     initTouchController();
 
     control.onEvent(
-      action === TouchAction.Pressed
+      action === TouchAction.Touched
         ? MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID
         : MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
       sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
