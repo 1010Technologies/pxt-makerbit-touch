@@ -269,7 +269,7 @@ namespace makerbit {
 
   /**
    * Returns true if a specific touch sensor is currently touched. False otherwise.
-   * @param sensorIndex the touch sensor index to be checked, eg: 5
+   * @param sensorIndex the touch sensor index to be checked
    */
   //% subcategory="Touch"
   //% blockId="makerbit_touch_is_touch_sensor_index_touched"
