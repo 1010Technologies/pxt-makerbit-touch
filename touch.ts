@@ -14,26 +14,27 @@ const enum TouchSensor {
   T15 = 0b000000000010,
   T16 = 0b000000000001,
   //% block="any"
-  Any = 1 << 30
+  Any = 1 << 30,
 }
 
 const enum TouchAction {
   //% block="touched"
   Touched = 0,
   //% block="released"
-  Released = 1
+  Released = 1,
 }
 
 namespace makerbit {
   const MPR121_ADDRESS = 0x5a;
   const TOUCH_STATUS_PAUSE_BETWEEN_READ = 50;
 
-  interface TouchController {
-    lastTouchStatus: number;
-    lastEventValue: number;
+  interface TouchState {
+    touchStatus: number;
+    eventValue: number;
+    hasNewTouchedEvent: boolean;
   }
 
-  let touchController: TouchController;
+  let touchState: TouchState;
 
   const MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID = 2148;
   const MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID = 2149;
@@ -45,13 +46,14 @@ namespace makerbit {
   //% blockId="makerbit_touch_init" block="initialize touch"
   //% weight=70
   function initTouchController(): void {
-    if (!!touchController) {
+    if (!!touchState) {
       return;
     }
 
-    touchController = {
-      lastTouchStatus: 0,
-      lastEventValue: 0
+    touchState = {
+      touchStatus: 0,
+      eventValue: 0,
+      hasNewTouchedEvent: false,
     };
 
     const addr = MPR121_ADDRESS;
@@ -125,37 +127,41 @@ namespace makerbit {
 
     while (true) {
       const touchStatus = mpr121.readTouchStatus(MPR121_ADDRESS);
-      touchController.lastTouchStatus = touchStatus;
 
-      for (
-        let touchSensorBit = 1;
-        touchSensorBit <= 2048;
-        touchSensorBit <<= 1
-      ) {
-        // Raise event when touch starts
-        if ((touchSensorBit & touchStatus) !== 0) {
-          if (!((touchSensorBit & previousTouchStatus) !== 0)) {
-            control.raiseEvent(
-              MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
-              touchSensorBit
-            );
-            touchController.lastEventValue = touchSensorBit;
+      if (touchStatus != touchState.touchStatus) {
+        touchState.touchStatus = touchStatus;
+
+        for (
+          let touchSensorBit = 1;
+          touchSensorBit <= 2048;
+          touchSensorBit <<= 1
+        ) {
+          // Raise event when touch ends
+          if ((touchSensorBit & touchStatus) === 0) {
+            if (!((touchSensorBit & previousTouchStatus) === 0)) {
+              control.raiseEvent(
+                MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
+                touchSensorBit
+              );
+              touchState.eventValue = touchSensorBit;
+            }
+          }
+
+          // Raise event when touch starts
+          if ((touchSensorBit & touchStatus) !== 0) {
+            if (!((touchSensorBit & previousTouchStatus) !== 0)) {
+              control.raiseEvent(
+                MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
+                touchSensorBit
+              );
+              touchState.eventValue = touchSensorBit;
+              touchState.hasNewTouchedEvent = true;
+            }
           }
         }
 
-        // Raise event when touch ends
-        if ((touchSensorBit & touchStatus) === 0) {
-          if (!((touchSensorBit & previousTouchStatus) === 0)) {
-            control.raiseEvent(
-              MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
-              touchSensorBit
-            );
-            touchController.lastEventValue = touchSensorBit;
-          }
-        }
+        previousTouchStatus = touchStatus;
       }
-
-      previousTouchStatus = touchStatus;
       basic.pause(TOUCH_STATUS_PAUSE_BETWEEN_READ);
     }
   }
@@ -163,7 +169,8 @@ namespace makerbit {
   /**
    * Do something when a touch sensor is touched or released.
    * @param sensor the touch sensor to be checked, eg: TouchSensor.T5
-   * @param handler body code to run when event is raised
+   * @param action the trigger action
+   * @param handler body code to run when the event is raised
    */
   //% subcategory="Touch"
   //% blockId=makerbit_touch_on_touch_sensor
@@ -184,7 +191,7 @@ namespace makerbit {
         : MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
       sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
       () => {
-        touchController.lastEventValue = control.eventValue();
+        touchState.eventValue = control.eventValue();
         handler();
       }
     );
@@ -193,7 +200,6 @@ namespace makerbit {
   /**
    * Returns the sensor index of the last touch event that was received.
    * It could be either a sensor touched or released event.
-   * This block is intended to be used inside of touch event handlers.
    */
   //% subcategory="Touch"
   //% blockId=makerbit_touch_current_touch_sensor
@@ -201,8 +207,8 @@ namespace makerbit {
   //% weight=50
   export function touchSensor(): number {
     initTouchController();
-    if (touchController.lastEventValue !== 0) {
-      return getSensorIndexFromSensorBitField(touchController.lastEventValue);
+    if (touchState.eventValue !== 0) {
+      return getSensorIndexFromSensorBitField(touchState.eventValue);
     } else {
       return 0;
     }
@@ -247,9 +253,9 @@ namespace makerbit {
   export function isSensorTouched(sensor: TouchSensor): boolean {
     initTouchController();
     if (sensor === TouchSensor.Any) {
-      return touchController.lastTouchStatus !== 0;
+      return touchState.touchStatus !== 0;
     } else {
-      return (touchController.lastTouchStatus & sensor) !== 0;
+      return (touchState.touchStatus & sensor) !== 0;
     }
   }
 
@@ -279,6 +285,23 @@ namespace makerbit {
     return isSensorTouched(getTouchSensorFromIndex(sensorIndex));
   }
 
+  /**
+   * Returns true if any sensor was touched since the last call of this function. False otherwise.
+   */
+  //% subcategory="Touch"
+  //% blockId=makerbit_touch_was_any_sensor_touched
+  //% block="any touch sensor was touched"
+  //% weight=41
+  export function wasTouched(): boolean {
+    initTouchController();
+    if (touchState.hasNewTouchedEvent) {
+      touchState.hasNewTouchedEvent = false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // Communication module for MPR121 capacitive touch sensor controller
   // https://www.sparkfun.com/datasheets/Components/MPR121.pdf
   export namespace mpr121 {
@@ -286,14 +309,14 @@ namespace makerbit {
       BaselineTrackingOn = 0b00,
       BaselineTrackingOff = 0b01,
       BaselineTrackingAndInitializeFirst5MSB = 0b10,
-      BaselineTrackingAndInitialize = 0b11
+      BaselineTrackingAndInitialize = 0b11,
     }
 
     export const enum Proximity {
       DISABLED = 0b00,
       ELE0_TO_1 = 0b01,
       ELE_0_TO_3 = 0b10,
-      ELE_0_TO_11 = 0b11
+      ELE_0_TO_11 = 0b11,
     }
 
     export const enum Touch {
@@ -309,7 +332,7 @@ namespace makerbit {
       ELE_0_TO_8 = 0b1001,
       ELE_0_TO_9 = 0b1010,
       ELE_0_TO_10 = 0b1011,
-      ELE_0_TO_11 = 0b1100
+      ELE_0_TO_11 = 0b1100,
     }
 
     export const enum Config {
@@ -395,7 +418,7 @@ namespace makerbit {
       AUTO_CONFIG_1 = 0x7c,
       AUTO_CONFIG_USL = 0x7d,
       AUTO_CONFIG_LSL = 0x7e,
-      AUTO_CONFIG_TL = 0x7f
+      AUTO_CONFIG_TL = 0x7f,
     }
 
     let commandDataBuffer: Buffer;

@@ -7,6 +7,7 @@
   "makerbit.onTouch|block": "wenn Berührungssensor | %sensor | %action",
   "makerbit.touchSensorIndex|block": "%touchSensorIndex",
   "makerbit.touchSensor|block": "Berührungssensor",
+  "makerbit.wasTouched|block": "beliebiger Berührungssensor wurde berührt",
   "makerbit|block": "MakerBit",
   "{id:category}Makerbit": "Makerbit",
   "{id:subcategory}Touch": "Berührung"

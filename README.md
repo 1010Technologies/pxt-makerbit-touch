@@ -14,32 +14,50 @@ http://makerbit.com/
 | :----------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
 |                                            _MakerBit_                                            |                                   _MakerBit+R with motor controller_                                   |
 
-## Touch Blocks
+# MakeCode Touch Blocks
 
 MakerBit offers built-in support for up to 12 touch sensors via the proximity capacitive touch sensor controller MPR121.
 
-### MakerBit onTouch
+## makerbit.onTouch
 
-Do something when a sensor is touched. This touch event is notified once at the beginning of a touch operation.
+Do something when a touch sensor is touched or released.
 
 ```sig
 makerbit.onTouch(TouchSensor.T5, TouchAction.Pressed, () => {})
 ```
 
-### MakerBit touchSensor
+### Parameters
 
-Returns the sensor index of the last touch event that was received. It could be either a sensor touched or released event. This block is intended to be used inside of touch event handlers.
+- `sensor` - the touch sensor to be checked
+- `action`- the trigger action
+- `handler` - body code to run when the event is raised
+
+## makerbit.touchSensor
+
+Returns the sensor index of the last touch event that was received. It could be either a sensor touched or released event.
 
 ```sig
 makerbit.touchSensor()
 ```
 
-### MakerBit isTouched
+## makerbit.isTouched
 
 Returns true if a specific touch sensor is currently touched. False otherwise.
 
 ```sig
 makerbit.isTouched(TouchSensor.T5)
+```
+
+### Parameters
+
+- `sensor` - the touch sensor to be checked
+
+## makerbit.wasTouched
+
+Returns true if any sensor was touched since the last call of this function. False otherwise.
+
+```sig
+makerbit.wasTouched()
 ```
 
 ## License
