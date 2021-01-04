@@ -8,3 +8,4 @@ projects
 *.tgz
 .header.json
 .vscode
+.DS_Store

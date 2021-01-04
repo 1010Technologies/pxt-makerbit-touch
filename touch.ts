@@ -25,7 +25,7 @@ const enum TouchAction {
 }
 
 namespace makerbit {
-  const MPR121_ADDRESS = 0x5a;
+  const MPR121_ADDRESS = 0x5A;
   const TOUCH_STATUS_PAUSE_BETWEEN_READ = 50;
 
   interface TouchState {
@@ -63,60 +63,61 @@ namespace makerbit {
     mpr121.stop(addr);
 
     // Input filter for rising state
-    mpr121.configure(addr, mpr121.Config.MHDR, 0x01);
-    mpr121.configure(addr, mpr121.Config.NHDR, 0x01);
-    mpr121.configure(addr, mpr121.Config.NCLR, 0x10);
-    mpr121.configure(addr, mpr121.Config.FDLR, 0x20);
+    mpr121.configure(addr, mpr121.Config.MHDR, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NHDR, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NCLR, 0x10, true);
+    mpr121.configure(addr, mpr121.Config.FDLR, 0x20, true);
 
     // Input filter for falling state
-    mpr121.configure(addr, mpr121.Config.MHDF, 0x01);
-    mpr121.configure(addr, mpr121.Config.NHDF, 0x01);
-    mpr121.configure(addr, mpr121.Config.NCLF, 0x10);
-    mpr121.configure(addr, mpr121.Config.FDLF, 0x20);
+    mpr121.configure(addr, mpr121.Config.MHDF, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NHDF, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NCLF, 0x10, true);
+    mpr121.configure(addr, mpr121.Config.FDLF, 0x20, true);
 
     // Input filter for touched state
-    mpr121.configure(addr, mpr121.Config.NHDT, 0x01);
-    mpr121.configure(addr, mpr121.Config.NCLT, 0x10);
-    mpr121.configure(addr, mpr121.Config.FDLT, 0xff);
+    mpr121.configure(addr, mpr121.Config.NHDT, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NCLT, 0x10, true);
+    mpr121.configure(addr, mpr121.Config.FDLT, 0xff, true);
 
     // Unused proximity sensor filter
-    mpr121.configure(addr, mpr121.Config.MHDPROXR, 0x0f);
-    mpr121.configure(addr, mpr121.Config.NHDPROXR, 0x0f);
-    mpr121.configure(addr, mpr121.Config.NCLPROXR, 0x00);
-    mpr121.configure(addr, mpr121.Config.FDLPROXR, 0x00);
-    mpr121.configure(addr, mpr121.Config.MHDPROXF, 0x01);
-    mpr121.configure(addr, mpr121.Config.NHDPROXF, 0x01);
-    mpr121.configure(addr, mpr121.Config.NCLPROXF, 0xff);
-    mpr121.configure(addr, mpr121.Config.FDLPROXF, 0xff);
-    mpr121.configure(addr, mpr121.Config.NHDPROXT, 0x00);
-    mpr121.configure(addr, mpr121.Config.NCLPROXT, 0x00);
-    mpr121.configure(addr, mpr121.Config.FDLPROXT, 0x00);
+    mpr121.configure(addr, mpr121.Config.MHDPROXR, 0x0f, true);
+    mpr121.configure(addr, mpr121.Config.NHDPROXR, 0x0f, true);
+    mpr121.configure(addr, mpr121.Config.NCLPROXR, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.FDLPROXR, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.MHDPROXF, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NHDPROXF, 0x01, true);
+    mpr121.configure(addr, mpr121.Config.NCLPROXF, 0xff, true);
+    mpr121.configure(addr, mpr121.Config.FDLPROXF, 0xff, true);
+    mpr121.configure(addr, mpr121.Config.NHDPROXT, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.NCLPROXT, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.FDLPROXT, 0x00, true);
 
     // Debounce configuration (used primarily for interrupts)
-    mpr121.configure(addr, mpr121.Config.DTR, 0x11);
+    mpr121.configure(addr, mpr121.Config.DTR, 0x11, true);
 
     // Electrode clock frequency etc
-    mpr121.configure(addr, mpr121.Config.AFE1, 0xff);
-    mpr121.configure(addr, mpr121.Config.AFE2, 0x30);
+    mpr121.configure(addr, mpr121.Config.AFE1, 0xff, true);
+    mpr121.configure(addr, mpr121.Config.AFE2, 0x30, true);
 
     // Enable autoconfiguration / calibration
-    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_0, 0x00);
-    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_1, 0x00);
+    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_0, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_1, 0x00, true);
 
     // Tuning parameters for the autocalibration algorithm
-    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_USL, 0x00);
-    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_LSL, 0x00);
-    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_TL, 0x00);
+    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_USL, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_LSL, 0x00, true);
+    mpr121.configure(addr, mpr121.Config.AUTO_CONFIG_TL, 0x00, true);
 
     // Default sensitivity thresholds
-    mpr121.configureThresholds(addr, 60, 20);
+    mpr121.configureThresholds(addr, 60, 20, true);
 
-    // Restart capture
+    // Restart capture and stop repeated writing
     mpr121.start(
       addr,
       mpr121.CalibrationLock.BaselineTrackingAndInitialize,
       mpr121.Proximity.DISABLED,
-      mpr121.Touch.ELE_0_TO_11
+      mpr121.Touch.ELE_0_TO_11,
+      false
     );
 
     control.inBackground(detectAndNotifyTouchEvents);
@@ -427,7 +428,8 @@ namespace makerbit {
     function writeCommandData(
       address: number,
       command: number,
-      data: number
+      data: number,
+      repeated: boolean
     ): void {
       if (!commandDataBuffer) {
         commandDataBuffer = pins.createBuffer(
@@ -439,7 +441,7 @@ namespace makerbit {
         0,
         (command << 8) | data
       );
-      pins.i2cWriteBuffer(address, commandDataBuffer);
+      pins.i2cWriteBuffer(address, commandDataBuffer, repeated);
     }
 
     function writeCommand(address: number, command: number): void {
@@ -453,38 +455,41 @@ namespace makerbit {
     export function configure(
       address: number,
       register: Config,
-      value: number
+      value: number,
+      repeated: boolean
     ): void {
-      writeCommandData(address, register, value);
+      writeCommandData(address, register, value, repeated);
     }
 
     export function configureThresholds(
       address: number,
       touch: number,
-      release: number
+      release: number,
+      repeated: boolean
     ): void {
       for (let i = 0; i < 12; i++) {
-        configure(address, Config.E0TTH + i * 2, touch);
-        configure(address, Config.E0RTH + i * 2, release);
+        configure(address, Config.E0TTH + i * 2, touch, repeated);
+        configure(address, Config.E0RTH + i * 2, release, repeated);
       }
     }
 
     export function reset(address: number): void {
-      writeCommandData(address, 0x80, 0x63);
+      writeCommandData(address, 0x80, 0x63, false);
       basic.pause(30);
     }
 
     export function stop(address: number): void {
-      writeCommandData(address, Config.ECR, 0x0);
+      writeCommandData(address, Config.ECR, 0x0, false);
     }
 
     export function start(
       address: number,
       cl: CalibrationLock,
       eleprox: Proximity,
-      ele: Touch
+      ele: Touch,
+      repeated: boolean
     ): void {
-      writeCommandData(address, Config.ECR, (cl << 6) | (eleprox << 4) | ele);
+      writeCommandData(address, Config.ECR, (cl << 6) | (eleprox << 4) | ele, repeated);
     }
 
     export function readTouchStatus(address: number): number {
