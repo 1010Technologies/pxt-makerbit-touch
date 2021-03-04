@@ -112,12 +112,7 @@ namespace makerbit {
     mpr121.configureThresholds(addr, 60, 20);
 
     // Restart capture and stop repeated writing
-    mpr121.start(
-      addr,
-      mpr121.CalibrationLock.BaselineTrackingAndInitialize,
-      mpr121.Proximity.DISABLED,
-      mpr121.Touch.ELE_0_TO_11
-    );
+    mpr121.start(addr);
 
     control.inBackground(detectAndNotifyTouchEvents);
   }
@@ -305,20 +300,27 @@ namespace makerbit {
   // Communication module for MPR121 capacitive touch sensor controller
   // https://www.sparkfun.com/datasheets/Components/MPR121.pdf
   export namespace mpr121 {
+    /*
     export const enum CalibrationLock {
       BaselineTrackingOn = 0b00,
       BaselineTrackingOff = 0b01,
       BaselineTrackingAndInitializeFirst5MSB = 0b10,
       BaselineTrackingAndInitialize = 0b11,
     }
+    */
+    const CalibrationLock_BaselineTrackingAndInitialize = 0b11;
 
+    /*
     export const enum Proximity {
       DISABLED = 0b00,
       ELE0_TO_1 = 0b01,
       ELE_0_TO_3 = 0b10,
       ELE_0_TO_11 = 0b11,
     }
+    */
+    const Proximity_DISABLED = 0b00;
 
+    /*
     export const enum Touch {
       DISABLED = 0b0000,
       ELE_0 = 0b0001,
@@ -334,6 +336,8 @@ namespace makerbit {
       ELE_0_TO_10 = 0b1011,
       ELE_0_TO_11 = 0b1100,
     }
+    */
+    const Touch_ELE_0_TO_11 = 0b1100;
 
     export const enum Config {
       MHDR = 0x2b,
@@ -360,60 +364,60 @@ namespace makerbit {
       FDLPROXT = 0x40,
       E0TTH = 0x41,
       E0RTH = 0x42,
-      E1TTH = 0x43,
-      E1RTH = 0x44,
-      E2TTH = 0x45,
-      E2RTH = 0x46,
-      E3TTH = 0x47,
-      E3RTH = 0x48,
-      E4TTH = 0x49,
-      E4RTH = 0x4a,
-      E5TTH = 0x4b,
-      E5RTH = 0x4c,
-      E6TTH = 0x4d,
-      E6RTH = 0x4e,
-      E7TTH = 0x4f,
-      E7RTH = 0x50,
-      E8TTH = 0x51,
-      E8RTH = 0x52,
-      E9TTH = 0x53,
-      E9RTH = 0x54,
-      E10TTH = 0x55,
-      E10RTH = 0x56,
-      E11TTH = 0x57,
-      E11RTH = 0x58,
-      E12TTH = 0x59,
-      E12RTH = 0x5a,
+      // E1TTH = 0x43,
+      // E1RTH = 0x44,
+      // E2TTH = 0x45,
+      // E2RTH = 0x46,
+      // E3TTH = 0x47,
+      // E3RTH = 0x48,
+      // E4TTH = 0x49,
+      // E4RTH = 0x4a,
+      // E5TTH = 0x4b,
+      // E5RTH = 0x4c,
+      // E6TTH = 0x4d,
+      // E6RTH = 0x4e,
+      // E7TTH = 0x4f,
+      // E7RTH = 0x50,
+      // E8TTH = 0x51,
+      // E8RTH = 0x52,
+      // E9TTH = 0x53,
+      // E9RTH = 0x54,
+      // E10TTH = 0x55,
+      // E10RTH = 0x56,
+      // E11TTH = 0x57,
+      // E11RTH = 0x58,
+      // E12TTH = 0x59,
+      // E12RTH = 0x5a,
       DTR = 0x5b,
       AFE1 = 0x5c,
       AFE2 = 0x5d,
       ECR = 0x5e,
-      CDC0 = 0x5f,
-      CDC1 = 0x60,
-      CDC2 = 0x62,
-      CDC4 = 0x63,
-      CDC5 = 0x64,
-      CDC6 = 0x65,
-      CDC7 = 0x66,
-      CDC8 = 0x67,
-      CDC9 = 0x68,
-      CDC10 = 0x69,
-      CDC11 = 0x6a,
-      CDC12 = 0x6b,
-      CDT_0_1 = 0x6c,
-      CDT_2_3 = 0x6d,
-      CDT_4_5 = 0x6e,
-      CDT_6_7 = 0x6f,
-      CDT_8_9 = 0x70,
-      CDT_10_11 = 0x71,
-      CDT_12 = 0x72,
-      GPIO_CTL0 = 0x73,
-      GPIO_CTL1 = 0x74,
-      GPIO_DIR = 0x76,
-      GPIO_EN = 0x77,
-      GPIO_SET = 0x78,
-      GPIO_CLR = 0x79,
-      GPIO_TOG = 0x7a,
+      // CDC0 = 0x5f,
+      // CDC1 = 0x60,
+      // CDC2 = 0x62,
+      // CDC4 = 0x63,
+      // CDC5 = 0x64,
+      // CDC6 = 0x65,
+      // CDC7 = 0x66,
+      // CDC8 = 0x67,
+      // CDC9 = 0x68,
+      // CDC10 = 0x69,
+      // CDC11 = 0x6a,
+      // CDC12 = 0x6b,
+      // CDT_0_1 = 0x6c,
+      // CDT_2_3 = 0x6d,
+      // CDT_4_5 = 0x6e,
+      // CDT_6_7 = 0x6f,
+      // CDT_8_9 = 0x70,
+      // CDT_10_11 = 0x71,
+      // CDT_12 = 0x72,
+      // GPIO_CTL0 = 0x73,
+      // GPIO_CTL1 = 0x74,
+      // GPIO_DIR = 0x76,
+      // GPIO_EN = 0x77,
+      // GPIO_SET = 0x78,
+      // GPIO_CLR = 0x79,
+      // GPIO_TOG = 0x7a,
       AUTO_CONFIG_0 = 0x7b,
       AUTO_CONFIG_1 = 0x7c,
       AUTO_CONFIG_USL = 0x7d,
@@ -472,12 +476,12 @@ namespace makerbit {
     }
 
     export function start(
-      address: number,
-      cl: CalibrationLock,
-      eleprox: Proximity,
-      ele: Touch
+      address: number
     ): void {
-      writeCommandData(address, Config.ECR, (cl << 6) | (eleprox << 4) | ele);
+      writeCommandData(
+        address,
+        Config.ECR,
+        (CalibrationLock_BaselineTrackingAndInitialize << 6) | (Proximity_DISABLED << 4) | Touch_ELE_0_TO_11);
     }
 
     export function readTouchStatus(address: number): number {
