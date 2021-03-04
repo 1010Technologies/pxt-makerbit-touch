@@ -114,50 +114,48 @@ namespace makerbit {
     // Restart capture and stop repeated writing
     mpr121.start(addr);
 
-    control.inBackground(detectAndNotifyTouchEvents);
+    control.setInterval(
+      detectAndNotifyTouchEvents,
+      TOUCH_STATUS_PAUSE_BETWEEN_READ,
+      control.IntervalMode.Interval
+    );
   }
 
   function detectAndNotifyTouchEvents() {
-    let previousTouchStatus = 0;
+    const touchStatus = mpr121.readTouchStatus(MPR121_ADDRESS);
 
-    while (true) {
-      const touchStatus = mpr121.readTouchStatus(MPR121_ADDRESS);
+    if (touchStatus != touchState.touchStatus) {
 
-      if (touchStatus != touchState.touchStatus) {
-        touchState.touchStatus = touchStatus;
-
-        for (
-          let touchSensorBit = 1;
-          touchSensorBit <= 2048;
-          touchSensorBit <<= 1
-        ) {
-          // Raise event when touch ends
-          if ((touchSensorBit & touchStatus) === 0) {
-            if (!((touchSensorBit & previousTouchStatus) === 0)) {
-              control.raiseEvent(
-                MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
-                touchSensorBit
-              );
-              touchState.eventValue = touchSensorBit;
-            }
-          }
-
-          // Raise event when touch starts
-          if ((touchSensorBit & touchStatus) !== 0) {
-            if (!((touchSensorBit & previousTouchStatus) !== 0)) {
-              control.raiseEvent(
-                MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
-                touchSensorBit
-              );
-              touchState.eventValue = touchSensorBit;
-              touchState.hasNewTouchedEvent = true;
-            }
+      for (
+        let touchSensorBit = 1;
+        touchSensorBit <= 2048;
+        touchSensorBit <<= 1
+      ) {
+        // Raise event when touch ends
+        if ((touchSensorBit & touchStatus) === 0) {
+          if (!((touchSensorBit & touchState.touchStatus) === 0)) {
+            control.raiseEvent(
+              MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
+              touchSensorBit
+            );
+            touchState.eventValue = touchSensorBit;
           }
         }
 
-        previousTouchStatus = touchStatus;
+        // Raise event when touch starts
+        if ((touchSensorBit & touchStatus) !== 0) {
+          if (!((touchSensorBit & touchState.touchStatus) !== 0)) {
+            control.raiseEvent(
+              MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
+              touchSensorBit
+            );
+            touchState.eventValue = touchSensorBit;
+            touchState.hasNewTouchedEvent = true;
+          }
+        }
       }
-      basic.pause(TOUCH_STATUS_PAUSE_BETWEEN_READ);
+
+      touchState.touchStatus = touchStatus;
     }
   }
 
