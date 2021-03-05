@@ -28,16 +28,34 @@ namespace makerbit {
   const MPR121_ADDRESS = 0x5A;
   const TOUCH_STATUS_PAUSE_BETWEEN_READ = 50;
 
+  class TouchHandler {
+    sensor: TouchSensor;
+    handler: () => void;
+
+    constructor(
+      sensor: TouchSensor,
+      handler: () => void
+    ) {
+      this.sensor = sensor;
+      this.handler = handler;
+    }
+
+    onEvent(sensor: TouchSensor) {
+      if (sensor === this.sensor || TouchSensor.Any === this.sensor) {
+        this.handler();
+      }
+    }
+  }
+
   interface TouchState {
     touchStatus: number;
     eventValue: number;
     hasNewTouchedEvent: boolean;
+    onTouched: TouchHandler[];
+    onReleased: TouchHandler[];
   }
 
   let touchState: TouchState;
-
-  const MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID = 2148;
-  const MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID = 2149;
 
   /**
    * Initialize the touch controller.
@@ -54,6 +72,8 @@ namespace makerbit {
       touchStatus: 0,
       eventValue: 0,
       hasNewTouchedEvent: false,
+      onTouched: [],
+      onReleased: [],
     };
 
     const addr = MPR121_ADDRESS;
@@ -125,6 +145,8 @@ namespace makerbit {
     const touchStatus = mpr121.readTouchStatus(MPR121_ADDRESS);
 
     if (touchStatus != touchState.touchStatus) {
+      const previousState = touchState.touchStatus;
+      touchState.touchStatus = touchStatus;
 
       for (
         let touchSensorBit = 1;
@@ -133,29 +155,21 @@ namespace makerbit {
       ) {
         // Raise event when touch ends
         if ((touchSensorBit & touchStatus) === 0) {
-          if (!((touchSensorBit & touchState.touchStatus) === 0)) {
-            control.raiseEvent(
-              MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
-              touchSensorBit
-            );
+          if (!((touchSensorBit & previousState) === 0)) {
             touchState.eventValue = touchSensorBit;
+            touchState.onReleased.forEach((th) => { th.onEvent(touchSensorBit) });
           }
         }
 
         // Raise event when touch starts
         if ((touchSensorBit & touchStatus) !== 0) {
-          if (!((touchSensorBit & touchState.touchStatus) !== 0)) {
-            control.raiseEvent(
-              MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID,
-              touchSensorBit
-            );
+          if (!((touchSensorBit & previousState) !== 0)) {
             touchState.eventValue = touchSensorBit;
             touchState.hasNewTouchedEvent = true;
+            touchState.onTouched.forEach((th) => { th.onEvent(touchSensorBit) });
           }
         }
       }
-
-      touchState.touchStatus = touchStatus;
     }
   }
 
@@ -177,17 +191,12 @@ namespace makerbit {
     handler: () => void
   ) {
     initTouchController();
-
-    control.onEvent(
-      action === TouchAction.Touched
-        ? MICROBIT_MAKERBIT_TOUCH_SENSOR_TOUCHED_ID
-        : MICROBIT_MAKERBIT_TOUCH_SENSOR_RELEASED_ID,
-      sensor === TouchSensor.Any ? EventBusValue.MICROBIT_EVT_ANY : sensor,
-      () => {
-        touchState.eventValue = control.eventValue();
-        handler();
-      }
-    );
+    if (action === TouchAction.Touched) {
+      touchState.onTouched.push(new TouchHandler(sensor, handler));
+    }
+    else {
+      touchState.onReleased.push(new TouchHandler(sensor, handler));
+    }
   }
 
   /**
