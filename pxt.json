@@ -4,7 +4,8 @@
     "description": "MPR121 capacitive touch sensor module for MakerBit",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "background": "github:1010Technologies/pxt-makerbit-background#v0.0.3"
     },
     "files": [
         "namespace.ts",
