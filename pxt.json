@@ -1,6 +1,6 @@
 {
     "name": "MakerBit-Touch",
-    "version": "1.2.9",
+    "version": "1.2.10",
     "description": "MPR121 capacitive touch sensor module for MakerBit",
     "license": "MIT",
     "dependencies": {
