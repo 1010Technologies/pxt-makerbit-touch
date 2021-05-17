@@ -8,7 +8,6 @@
         "background": "github:1010Technologies/pxt-makerbit-background#v0.0.6"
     },
     "files": [
-        "namespace.ts",
         "README.md",
         "touch.ts",
         "_locales/de/MakerBit-Touch-strings.json"

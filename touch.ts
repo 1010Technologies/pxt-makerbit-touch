@@ -24,6 +24,8 @@ const enum TouchAction {
   Released = 1,
 }
 
+//% color=#0fbc11 icon="\u272a" block="MakerBit"
+//% category="MakerBit"
 namespace makerbit {
   const MPR121_ADDRESS = 0x5A;
   const TOUCH_STATUS_PAUSE_BETWEEN_READ = 50;
