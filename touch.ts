@@ -136,7 +136,7 @@ namespace makerbit {
     // Restart capture and stop repeated writing
     mpr121.start(addr);
 
-    background.schedule(detectAndNotifyTouchEvents, TOUCH_STATUS_PAUSE_BETWEEN_READ, background.Mode.Repeat);
+    background.schedule(detectAndNotifyTouchEvents, background.Thread.UserCallback, background.Mode.Repeat, TOUCH_STATUS_PAUSE_BETWEEN_READ);
   }
 
   function detectAndNotifyTouchEvents() {
