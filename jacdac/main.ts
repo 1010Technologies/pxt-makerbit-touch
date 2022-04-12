@@ -105,6 +105,7 @@ namespace servers {
     }
 
     function start() {
+        jacdac.productIdentifier = 0x36ca9905
         jacdac.startSelfServers(() => [
             new TouchButtonServer("T5", TouchSensor.T5),
             new TouchButtonServer("T6", TouchSensor.T6),
