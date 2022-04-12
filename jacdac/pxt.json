@@ -1,10 +1,11 @@
 {
     "name": "jacdac-makerbit-touch",
+    "version": "1.2.17",
     "dependencies": {
         "core": "*",
         "radio": "*",
         "microphone": "*",
-        "MakerBit-Touch": "github:pelikhan/pxt-makerbit-touch#v1.2.16",
+        "MakerBit-Touch": "github:pelikhan/pxt-makerbit-touch",
         "jacdac": "github:microsoft/pxt-jacdac#v0.9.4",
         "jacdac-button": "github:microsoft/pxt-jacdac/button#v0.9.4"
     },
