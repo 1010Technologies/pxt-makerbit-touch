@@ -1,12 +1,13 @@
 {
-    "name": "jacdac",
+    "name": "jacdac-makerbit-touch",
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*"
+        "microphone": "*",
+        "MakerBit-Touch": "github:pelikhan/pxt-makerbit-touch#v1.2.16",
+        "jacdac": "github:microsoft/pxt-jacdac#v0.9.4"
     },
     "files": [
-        "main.blocks",
         "main.ts",
         "README.md"
     ],
@@ -14,11 +15,11 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "4.0.18",
+        "target": "4.1.17",
         "targetId": "microbit"
     },
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }
