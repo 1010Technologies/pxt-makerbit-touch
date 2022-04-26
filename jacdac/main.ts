@@ -8,62 +8,62 @@ namespace modules {
      * MakerBit touch pad 5 client
      */
     //% fixedInstance whenUsed block="makerbit touch5"
-    export const makerbitTouch5 = new ButtonClient("makerbit touch5?device=self")
+    export const makerbitTouch5 = new ButtonClient("makerbit touch5?dev=self&srvo=0")
     /**
      * MakerBit touch pad 6 client
      */
     //% fixedInstance whenUsed block="makerbit touch6"
-    export const makerbitTouch6 = new ButtonClient("makerbit touch6?device=self")
+    export const makerbitTouch6 = new ButtonClient("makerbit touch6?dev=self&srvo=1")
     /**
      * MakerBit touch pad 7 client
      */
     //% fixedInstance whenUsed block="makerbit touch7"
-    export const makerbitTouch7 = new ButtonClient("makerbit touch7?device=self")
+    export const makerbitTouch7 = new ButtonClient("makerbit touch7?dev=self&srvo=2")
     /**
      * MakerBit touch pad 8 client
      */
     //% fixedInstance whenUsed block="makerbit touch8"
-    export const makerbitTouch8 = new ButtonClient("makerbit touch8?device=self")
+    export const makerbitTouch8 = new ButtonClient("makerbit touch8?dev=self&srvo=3")
     /**
      * MakerBit touch pad 9 client
      */
     //% fixedInstance whenUsed block="makerbit touch9"
-    export const makerbitTouch9 = new ButtonClient("makerbit touch9?device=self")
+    export const makerbitTouch9 = new ButtonClient("makerbit touch9?dev=self&srvo=4")
     /**
      * MakerBit touch pad 10 client
      */
     //% fixedInstance whenUsed block="makerbit touch10"
-    export const makerbitTouch10 = new ButtonClient("makerbit touch10?device=self")
+    export const makerbitTouch10 = new ButtonClient("makerbit touch10?dev=self&srvo=5")
     /**
      * MakerBit touch pad 11 client
      */
     //% fixedInstance whenUsed block="makerbit touch11"
-    export const makerbitTouch11 = new ButtonClient("makerbit touch11?device=self")
+    export const makerbitTouch11 = new ButtonClient("makerbit touch11?dev=self&srvo=6")
     /**
      * MakerBit touch pad 12 client
      */
     //% fixedInstance whenUsed block="makerbit touch12"
-    export const makerbitTouch12 = new ButtonClient("makerbit touch12?device=self")
+    export const makerbitTouch12 = new ButtonClient("makerbit touch12?dev=self&srvo=7")
     /**
      * MakerBit touch pad 13 client
      */
     //% fixedInstance whenUsed block="makerbit touch13"
-    export const makerbitTouch13 = new ButtonClient("makerbit touch13?device=self")
+    export const makerbitTouch13 = new ButtonClient("makerbit touch13?dev=self&srvo=8")
     /**
      * MakerBit touch pad 14 client
      */
     //% fixedInstance whenUsed block="makerbit touch14"
-    export const makerbitTouch14 = new ButtonClient("makerbit touch14?device=self")
+    export const makerbitTouch14 = new ButtonClient("makerbit touch14?dev=self&srvo=9")
     /**
      * MakerBit touch pad 15 client
      */
     //% fixedInstance whenUsed block="makerbit touch15"
-    export const makerbitTouch15 = new ButtonClient("makerbit touch15?device=self")
+    export const makerbitTouch15 = new ButtonClient("makerbit touch15?dev=self&srvo=10")
     /**
      * MakerBit touch pad 16 client
      */
     //% fixedInstance whenUsed block="makerbit touch16"
-    export const makerbitTouch16 = new ButtonClient("makerbit touch16?device=self")
+    export const makerbitTouch16 = new ButtonClient("makerbit touch16?dev=self&srvo=11")
 }
 
 namespace servers {
