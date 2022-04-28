@@ -6,8 +6,8 @@
         "radio": "*",
         "microphone": "*",
         "MakerBit-Touch": "github:pelikhan/pxt-makerbit-touch",
-        "jacdac": "github:microsoft/pxt-jacdac#v0.10.3",
-        "jacdac-button": "github:microsoft/pxt-jacdac/button#v0.10.3"
+        "jacdac": "github:microsoft/pxt-jacdac#v0.10.14",
+        "jacdac-button": "github:microsoft/pxt-jacdac/button#v0.10.14"
     },
     "files": [
         "main.ts",
@@ -17,7 +17,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "4.1.24",
+        "target": "4.1.27",
         "targetId": "microbit"
     },
     "supportedTargets": [
