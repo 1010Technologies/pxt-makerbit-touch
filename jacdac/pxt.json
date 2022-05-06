@@ -6,8 +6,8 @@
         "radio": "*",
         "microphone": "*",
         "MakerBit-Touch": "github:pelikhan/pxt-makerbit-touch",
-        "jacdac": "github:microsoft/pxt-jacdac#v0.10.23",
-        "jacdac-button": "github:microsoft/pxt-jacdac/button#v0.10.23"
+        "jacdac": "github:microsoft/pxt-jacdac#v0.10.27",
+        "jacdac-button": "github:microsoft/pxt-jacdac/button#v0.10.27"
     },
     "files": [
         "main.ts",
