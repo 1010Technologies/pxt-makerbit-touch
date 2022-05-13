@@ -1,6 +1,6 @@
 {
     "name": "makerbit-touch-jacdac",
-    "version": "1.2.20",
+    "version": "1.2.21",
     "dependencies": {
         "core": "*",
         "radio": "*",
