@@ -5,7 +5,7 @@
         "core": "*",
         "radio": "*",
         "microphone": "*",
-        "MakerBit-Touch": "github:pelikhan/pxt-makerbit-touch",
+        "MakerBit-Touch": "github:1010Technologies/pxt-makerbit-touch",
         "jacdac": "github:microsoft/pxt-jacdac#v0.10.41",
         "jacdac-button": "github:microsoft/pxt-jacdac/button#v0.10.41"
     },
